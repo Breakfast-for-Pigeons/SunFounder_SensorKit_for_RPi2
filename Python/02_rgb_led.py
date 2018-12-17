@@ -1,65 +1,53 @@
 #!/usr/bin/env python
-import RPi.GPIO as GPIO
-import time
+"""
+Makes the SunFounder RGB LED change 8 different colors.
 
-colors = [0xFF0000, 0x00FF00, 0x0000FF, 0xFFFF00, 0xFF00FF, 0x00FFFF]
-R = 11
-G = 12
-B = 13
+This program was written on a Raspberry Pi using the Geany IDE.
+"""
+from time import sleep
+from gpiozero import RGBLED
 
-def setup(Rpin, Gpin, Bpin):
-	global pins
-	global p_R, p_G, p_B
-	pins = {'pin_R': Rpin, 'pin_G': Gpin, 'pin_B': Bpin}
-	GPIO.setmode(GPIO.BOARD)       # Numbers GPIOs by physical location
-	for i in pins:
-		GPIO.setup(pins[i], GPIO.OUT)   # Set pins' mode is output
-		GPIO.output(pins[i], GPIO.HIGH) # Set pins to high(+3.3V) to off led
-	
-	p_R = GPIO.PWM(pins['pin_R'], 2000)  # set Frequece to 2KHz
-	p_G = GPIO.PWM(pins['pin_G'], 1999)
-	p_B = GPIO.PWM(pins['pin_B'], 5000)
-	
-	p_R.start(100)      # Initial duty Cycle = 0(leds off)
-	p_G.start(100)
-	p_B.start(100)
+# NOTE: active_high needs to be set to False for common annode LEDs
+led = RGBLED(red=17, green=18, blue=27, active_high=False,
+             initial_value=(0, 0, 0), pwm=True, pin_factory=None)
 
-def map(x, in_min, in_max, out_min, out_max):
-	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
-def off():
-	for i in pins:
-		GPIO.output(pins[i], GPIO.HIGH)    # Turn off all leds
+def cycle_colors():
+    """
+    Cycles through the 8 main colors.
+    """
 
-def setColor(col):   # For example : col = 0x112233
-	R_val = (col & 0xff0000) >> 16
-	G_val = (col & 0x00ff00) >> 8
-	B_val = (col & 0x0000ff) >> 0
+    sleep_speed = 1
 
-	R_val = map(R_val, 0, 255, 0, 100)
-	G_val = map(G_val, 0, 255, 0, 100)
-	B_val = map(B_val, 0, 255, 0, 100)
-	
-	p_R.ChangeDutyCycle(100-R_val)     # Change duty cycle
-	p_G.ChangeDutyCycle(100-G_val)
-	p_B.ChangeDutyCycle(100-B_val)
+    led.color = (0, 0, 1)  # blue
+    sleep(sleep_speed)
+    led.color = (0, 1, 0)  # green
+    sleep(sleep_speed)
+    led.color = (0, 1, 1)  # cyan
+    sleep(sleep_speed)
+    led.color = (1, 0, 0)  # red
+    sleep(sleep_speed)
+    led.color = (1, 0, 1)  # magenta
+    sleep(sleep_speed)
+    led.color = (1, 1, 0)  # yellow
+    sleep(sleep_speed)
+    led.color = (1, 1, 1)  # white
+    sleep(sleep_speed)
+    led.color = (0, 0, 0)  # off
+    sleep(sleep_speed)
 
-def loop():
-	while True:
-		for col in colors:
-			setColor(col)
-			time.sleep(1)
 
 def destroy():
-	p_R.stop()
-	p_G.stop()
-	p_B.stop()
-	off()
-	GPIO.cleanup()
+    """
+    Closes the LED pins and then exits.
+    """
+    print("\nStopping program.")
+    led.close()
+    exit()
+
 
 if __name__ == "__main__":
-	try:
-		setup(R, G, B)
-		loop()
-	except KeyboardInterrupt:
-		destroy()
+    try:
+        cycle_colors()
+    except KeyboardInterrupt:
+        destroy()
