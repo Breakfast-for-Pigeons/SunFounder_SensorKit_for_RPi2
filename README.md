@@ -1,6 +1,6 @@
 **NOTE:** This is my fork of the SunFounder Sensor Kit for the Raspberry Pi. The 2 basic changes I made are:
  * Python 3 instead of Python 2
- * Uses the gpiozero module instead of the RPi.GPIO module
+ * Uses the gpiozero module instead of the RPi.GPIO module:
  https://gpiozero.readthedocs.io/en/stable/index.html
 
 ## SunFounder Sensor Kit V2.0 for RPi 2
