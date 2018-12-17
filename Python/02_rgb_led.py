@@ -7,7 +7,11 @@ This program was written on a Raspberry Pi using the Geany IDE.
 from time import sleep
 from gpiozero import RGBLED
 
-# NOTE: active_high needs to be set to False for common annode LEDs
+# NOTE: active_high needs to be set to True for common cathode LEDs and
+# set to False for common annode LEDs.
+# Page 37 of the Sunfounder Sensor Kit book, it says that it is a 
+# common cathode RGBLED, but when I set active_high to True, it didn't
+# work properly. I set active_high to False, and it works as expected.
 led = RGBLED(red=17, green=18, blue=27, active_high=False,
              initial_value=(0, 0, 0), pwm=True, pin_factory=None)
 
