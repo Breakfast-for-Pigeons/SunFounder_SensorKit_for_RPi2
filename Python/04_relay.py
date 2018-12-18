@@ -1,31 +1,42 @@
 #!/usr/bin/env python
-import RPi.GPIO as GPIO
-import time
+"""
+Controls the SunFounder relay module.
 
-RelayPin = 11    # pin11
+This program was written on a Raspberry Pi using the Geany IDE.
+"""
 
-def setup():
-	GPIO.setmode(GPIO.BOARD)       # Numbers GPIOs by physical location
-	GPIO.setup(RelayPin, GPIO.OUT)
-	GPIO.output(RelayPin, GPIO.HIGH)
+from time import sleep
+from gpiozero import OutputDevice
+
+relay = OutputDevice(pin=17)
 
 def loop():
-	while True:
-		print '...relayd on'
-		GPIO.output(RelayPin, GPIO.LOW)
-		time.sleep(0.5)
-		print 'relay off...'
-		GPIO.output(RelayPin, GPIO.HIGH)
-		time.sleep(0.5)
+    """
+    Turns the relay on and off
+    """
+    sleep_speed = 0.5
+    
+    while True:
+        print("...relay on")
+        relay.on()
+        sleep(sleep_speed)
+        print("relay off...")
+        relay.off()
+        sleep(sleep_speed)
+
 
 def destroy():
-	GPIO.output(RelayPin, GPIO.HIGH)
-	GPIO.cleanup()                     # Release resource
+    """
+    Releases resources and exits.
+    """
+    print("\nStopping program.")
+    relay.close()
+    exit()
 
-if __name__ == '__main__':     # Program start from here
-	setup()
-	try:
-		loop()
-	except KeyboardInterrupt:  # When 'Ctrl+C' is pressed, the child program destroy() will be  executed.
-		destroy()
 
+if __name__ == '__main__':
+    print("Press Crtl-C to stop the program.")
+    try:
+        loop()
+    except KeyboardInterrupt:
+        destroy()
