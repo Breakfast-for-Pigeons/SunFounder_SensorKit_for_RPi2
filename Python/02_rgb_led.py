@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Makes the SunFounder RGB LED change 8 different colors. Makes them blink and pulse.
+Makes the SunFounder RGB LED change 7 different colors. Makes them blink and pulse.
 
 This program was written on a Raspberry Pi using the Geany IDE.
 """
