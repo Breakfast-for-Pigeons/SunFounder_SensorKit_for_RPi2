@@ -1,9 +1,34 @@
 #!/usr/bin/env python
 """
-Makes the SunFounder RGB LED change 7 different colors. Makes them blink and pulse.
+This program was written for the SunFounder RGB LED module.
+
+....................
+
+Functions:
+
+- cycle_leds: Cycles through the 7 main colors.
+- blink_blue: Sets the RGB LED to blue and blinks.
+- blink_green: Sets the RGB LED to green and blinks.
+- blink_cyan: Sets the RGB LED to cyan and blinks.
+- blink_red: Sets the RGB LED to red and blinks.
+- blink_magenta: Sets the RGB LED to magenta and blinks.
+- blink_yellow: Sets the RGB LED to yellow and blinks.
+- blink_white: Sets the RGB LED to cyan and blinks.
+- christmas_lights: the LED blinks red and green
+- pulse_blue: Sets the RGB LED to blue and pulses.
+- pulse_green: Sets the RGB LED to green and pulses.
+- pulse_cyan: Sets the RGB LED to cyan and pulses.
+- pulse_red: Sets the RGB LED to red and pulses.
+- pulse_magenta: Sets the RGB LED to magenta and pulses.
+- pulse_yellow: Sets the RGB LED to yellow and pulses.
+- pulse_white: Sets the RGB LED to cyan and pulses.
+- stop: Prints a message and closes the resources used by the LED.
+
+....................
 
 This program was written on a Raspberry Pi using the Geany IDE.
 """
+
 from time import sleep
 from gpiozero import RGBLED
 
@@ -43,7 +68,15 @@ def cycle_colors():
 
 def blink_blue():
     """
-    Sets the RGB LED to blue and blinks 3 times.
+    Sets the RGB LED to blue and blinks.
+
+    The number of times it blinks can be changed by editing the value
+    of 'n'.
+
+    The duration of the blink can be changed by editing the on_time and
+    off_time values. I set the default for each of them to 1, which
+    means the LED stays on for 1 second and then turns off for one
+    second.
     """
     led.blink(on_time=1, off_time=1, fade_in_time=0, fade_out_time=0,
               on_color=(0, 0, 1), off_color=(0, 0, 0), n=3,
@@ -52,7 +85,15 @@ def blink_blue():
 
 def blink_green():
     """
-    Sets the RGB LED to green and blinks 3 times.
+    Sets the RGB LED to green and blinks.
+
+    The number of times it blinks can be changed by editing the value
+    of 'n'.
+
+    The duration of the blink can be changed by editing the on_time and
+    off_time values. I set the default for each of them to 1, which
+    means the LED stays on for 1 second and then turns off for one
+    second.
     """
     led.blink(on_time=1, off_time=1, fade_in_time=0, fade_out_time=0,
               on_color=(0, 1, 0), off_color=(0, 0, 0), n=3,
@@ -61,7 +102,15 @@ def blink_green():
 
 def blink_cyan():
     """
-    Sets the RGB LED to cyan and blinks 3 times.
+    Sets the RGB LED to cyan and blinks.
+
+    The number of times it blinks can be changed by editing the value
+    of 'n'.
+
+    The duration of the blink can be changed by editing the on_time and
+    off_time values. I set the default for each of them to 1, which
+    means the LED stays on for 1 second and then turns off for one
+    second.
     """
     led.blink(on_time=1, off_time=1, fade_in_time=0, fade_out_time=0,
               on_color=(0, 1, 1), off_color=(0, 0, 0), n=3,
@@ -70,7 +119,15 @@ def blink_cyan():
 
 def blink_red():
     """
-    Sets the RGB LED to red and blinks 3 times.
+    Sets the RGB LED to red and blinks.
+
+    The number of times it blinks can be changed by editing the value
+    of 'n'.
+
+    The duration of the blink can be changed by editing the on_time and
+    off_time values. I set the default for each of them to 1, which
+    means the LED stays on for 1 second and then turns off for one
+    second.
     """
     led.blink(on_time=1, off_time=1, fade_in_time=0, fade_out_time=0,
               on_color=(1, 0, 0), off_color=(0, 0, 0), n=3,
@@ -79,7 +136,15 @@ def blink_red():
 
 def blink_magenta():
     """
-    Sets the RGB LED to magenta and blinks 3 times.
+    Sets the RGB LED to magenta and blinks.
+
+    The number of times it blinks can be changed by editing the value
+    of 'n'.
+
+    The duration of the blink can be changed by editing the on_time and
+    off_time values. I set the default for each of them to 1, which
+    means the LED stays on for 1 second and then turns off for one
+    second.
     """
     led.blink(on_time=1, off_time=1, fade_in_time=0, fade_out_time=0,
               on_color=(1, 0, 1), off_color=(0, 0, 0), n=3,
@@ -88,7 +153,15 @@ def blink_magenta():
 
 def blink_yellow():
     """
-    Sets the RGB LED to yellow and blinks 3 times.
+    Sets the RGB LED to yellow and blinks.
+
+    The number of times it blinks can be changed by editing the value
+    of 'n'.
+
+    The duration of the blink can be changed by editing the on_time and
+    off_time values. I set the default for each of them to 1, which
+    means the LED stays on for 1 second and then turns off for one
+    second.
     """
     led.blink(on_time=1, off_time=1, fade_in_time=0, fade_out_time=0,
               on_color=(1, 1, 0), off_color=(0, 0, 0), n=3,
@@ -97,7 +170,15 @@ def blink_yellow():
 
 def blink_white():
     """
-    Sets the RGB LED to white and blinks 3 times.
+    Sets the RGB LED to white and blinks.
+
+    The number of times it blinks can be changed by editing the value
+    of 'n'.
+
+    The duration of the blink can be changed by editing the on_time and
+    off_time values. I set the default for each of them to 1, which
+    means the LED stays on for 1 second and then turns off for one
+    second.
     """
     led.blink(on_time=1, off_time=1, fade_in_time=0, fade_out_time=0,
               on_color=(1, 1, 1), off_color=(0, 0, 0), n=3,
@@ -106,7 +187,15 @@ def blink_white():
 
 def christmas_lights():
     """
-    Sets the RGB LED to red and green. Blinks 5 times.
+    Makes the RGB LED alternate between red and green.
+
+    The number of times it blinks can be changed by editing the value
+    of 'n'.
+
+    The duration of the blink can be changed by editing the on_time and
+    off_time values. I set the default for each of them to 1, which
+    means the LED stays on for 1 second and then turns off for one
+    second.
     """
     led.blink(on_time=1, off_time=1, fade_in_time=0, fade_out_time=0,
               on_color=(1, 0, 0), off_color=(0, 1, 0), n=5,
@@ -115,7 +204,15 @@ def christmas_lights():
 
 def pulse_blue():
     """
-    Sets the RGB LED to blue and pulses 3 times.
+    Sets the RGB LED to blue and pulses.
+
+    The number of times it pulses can be changed by editing the value
+    of 'n'.
+
+    The duration of the pulse can be changed by editing the fade_in_time
+    and fade_out_time values. I set the default for each of them to 1,
+    which means the LED brightness fades in for 1 second and then fades
+    out for one second.
     """
     led.pulse(fade_in_time=1, fade_out_time=1, on_color=(0, 0, 1),
               off_color=(0, 0, 0), n=3, background=False)
@@ -123,7 +220,15 @@ def pulse_blue():
 
 def pulse_green():
     """
-    Sets the RGB LED to green and pulses 3 times.
+    Sets the RGB LED to green and pulses.
+
+    The number of times it pulses can be changed by editing the value
+    of 'n'.
+
+    The duration of the pulse can be changed by editing the fade_in_time
+    and fade_out_time values. I set the default for each of them to 1,
+    which means the LED brightness fades in for 1 second and then fades
+    out for one second.
     """
     led.pulse(fade_in_time=1, fade_out_time=1, on_color=(0, 1, 0),
               off_color=(0, 0, 0), n=3, background=False)
@@ -131,7 +236,15 @@ def pulse_green():
 
 def pulse_cyan():
     """
-    Sets the RGB LED to cyan and pulses 3 times.
+    Sets the RGB LED to cyan and pulses.
+
+    The number of times it pulses can be changed by editing the value
+    of 'n'.
+
+    The duration of the pulse can be changed by editing the fade_in_time
+    and fade_out_time values. I set the default for each of them to 1,
+    which means the LED brightness fades in for 1 second and then fades
+    out for one second.
     """
     led.pulse(fade_in_time=1, fade_out_time=1, on_color=(0, 1, 1),
               off_color=(0, 0, 0), n=3, background=False)
@@ -139,7 +252,15 @@ def pulse_cyan():
 
 def pulse_red():
     """
-    Sets the RGB LED to red and pulses 3 times.
+    Sets the RGB LED to red and pulses.
+
+    The number of times it pulses can be changed by editing the value
+    of 'n'.
+
+    The duration of the pulse can be changed by editing the fade_in_time
+    and fade_out_time values. I set the default for each of them to 1,
+    which means the LED brightness fades in for 1 second and then fades
+    out for one second.
     """
     led.pulse(fade_in_time=1, fade_out_time=1, on_color=(1, 0, 0),
               off_color=(0, 0, 0), n=3, background=False)
@@ -147,7 +268,15 @@ def pulse_red():
 
 def pulse_magenta():
     """
-    Sets the RGB LED to magenta and pulses 3 times.
+    Sets the RGB LED to magenta and pulses.
+
+    The number of times it pulses can be changed by editing the value
+    of 'n'.
+
+    The duration of the pulse can be changed by editing the fade_in_time
+    and fade_out_time values. I set the default for each of them to 1,
+    which means the LED brightness fades in for 1 second and then fades
+    out for one second.
     """
     led.pulse(fade_in_time=1, fade_out_time=1, on_color=(1, 0, 1),
               off_color=(0, 0, 0), n=3, background=False)
@@ -155,7 +284,15 @@ def pulse_magenta():
 
 def pulse_yellow():
     """
-    Sets the RGB LED to yellow and pulses 3 times.
+    Sets the RGB LED to yellow and pulses.
+
+    The number of times it pulses can be changed by editing the value
+    of 'n'.
+
+    The duration of the pulse can be changed by editing the fade_in_time
+    and fade_out_time values. I set the default for each of them to 1,
+    which means the LED brightness fades in for 1 second and then fades
+    out for one second.
     """
     led.pulse(fade_in_time=1, fade_out_time=1, on_color=(1, 1, 0),
               off_color=(0, 0, 0), n=3, background=False)
@@ -163,13 +300,21 @@ def pulse_yellow():
 
 def pulse_white():
     """
-    Sets the RGB LED to white and pulses 3 times.
+    Sets the RGB LED to white and pulses.
+
+    The number of times it pulses can be changed by editing the value
+    of 'n'.
+
+    The duration of the pulse can be changed by editing the fade_in_time
+    and fade_out_time values. I set the default for each of them to 1,
+    which means the LED brightness fades in for 1 second and then fades
+    out for one second.
     """
     led.pulse(fade_in_time=1, fade_out_time=1, on_color=(1, 1, 1),
               off_color=(0, 0, 0), n=3, background=False)
 
 
-def destroy():
+def stop():
     """
     Closes the LED pins and then exits.
     """
@@ -197,4 +342,4 @@ if __name__ == "__main__":
         pulse_yellow()
         pulse_white()
     except KeyboardInterrupt:
-        destroy()
+        stop()
