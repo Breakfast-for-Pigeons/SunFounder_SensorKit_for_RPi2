@@ -10,12 +10,12 @@ from gpiozero import OutputDevice
 
 relay = OutputDevice(pin=17)
 
-def loop():
+def activate_relay():
     """
     Turns the relay on and off
     """
     sleep_speed = 0.5
-    
+
     while True:
         print("...relay on")
         relay.on()
@@ -25,7 +25,7 @@ def loop():
         sleep(sleep_speed)
 
 
-def destroy():
+def stop():
     """
     Releases resources and exits.
     """
@@ -37,6 +37,6 @@ def destroy():
 if __name__ == '__main__':
     print("Press Crtl-C to stop the program.")
     try:
-        loop()
+        activate_relay()
     except KeyboardInterrupt:
-        destroy()
+        stop()
