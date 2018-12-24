@@ -1,36 +1,45 @@
 #!/usr/bin/env python
-#####################################################
-#
-#	DO NOT WATCH THE LASER DERECTELY IN THE EYE!
-#
-#####################################################
-import RPi.GPIO as GPIO
-import time
+"""
+Controls the SunFounder laser module.
 
-LedPin = 11    # pin11
+DO NOT LOOK DIRECTELY INTO THE LASER!
 
-def setup():
-	GPIO.setmode(GPIO.BOARD)       # Numbers GPIOs by physical location
-	GPIO.setup(LedPin, GPIO.OUT)   # Set LedPin's mode is output
-	GPIO.output(LedPin, GPIO.HIGH) # Set LedPin high(+3.3V) to off led
+This program was written on a Raspberry Pi using the Geany IDE.
+"""
 
-def loop():
-	while True:
-		print '...Laser on'
-		GPIO.output(LedPin, GPIO.LOW)  # led on
-		time.sleep(0.5)
-		print 'Laser off...'
-		GPIO.output(LedPin, GPIO.HIGH) # led off
-		time.sleep(0.5)
+from time import sleep
+from gpiozero import OutputDevice
 
-def destroy():
-	GPIO.output(LedPin, GPIO.HIGH)     # led off
-	GPIO.cleanup()                     # Release resource
+laser = OutputDevice(pin=17, active_high=True, initial_value=False)
 
-if __name__ == '__main__':     # Program start from here
-	setup()
-	try:
-		loop()
-	except KeyboardInterrupt:  # When 'Ctrl+C' is pressed, the child program destroy() will be  executed.
-		destroy()
 
+def activate_laser():
+    """
+    Turns the laser on and off
+    """
+    sleep_speed = 1.0
+
+    while True:
+        print("laser on...")
+        laser.on()
+        sleep(sleep_speed)
+        print("...laser off")
+        laser.off()
+        sleep(sleep_speed)
+
+
+def stop():
+    """
+    Releases resources and exits.
+    """
+    print("\nStopping program.")
+    laser.close()
+    exit()
+
+
+if __name__ == '__main__':
+    print("Press Crtl-C to stop the program.")
+    try:
+        activate_laser()
+    except KeyboardInterrupt:
+        stop()
