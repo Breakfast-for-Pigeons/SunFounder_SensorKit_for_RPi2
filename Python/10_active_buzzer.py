@@ -1,40 +1,41 @@
 #!/usr/bin/env python
-import RPi.GPIO as GPIO
-import time
+"""
+Controls the SunFounder active buzzer module.
 
-Buzzer = 11    # pin11
+This program was written on a Raspberry Pi using the Geany IDE.
+"""
+from time import sleep
+from gpiozero import Buzzer
 
-def setup(pin):
-	global BuzzerPin
-	BuzzerPin = pin
-	GPIO.setmode(GPIO.BOARD)       # Numbers GPIOs by physical location
-	GPIO.setup(BuzzerPin, GPIO.OUT)
-	GPIO.output(BuzzerPin, GPIO.HIGH)
+buzzer = Buzzer(pin=17, active_high=True, initial_value=False)
 
-def on():
-	GPIO.output(BuzzerPin, GPIO.LOW)
 
-def off():
-	GPIO.output(BuzzerPin, GPIO.HIGH)
+def activate_buzzer():
+    """
+    Activates the buzzer
+    """
+    sleep_speed = 0.5
 
-def beep(x):
-	on()
-	time.sleep(x)
-	off()
-	time.sleep(x)
+    buzzer.on()
+    sleep(sleep_speed)
+    buzzer.off()
+    sleep(sleep_speed)
 
-def loop():
-	while True:
-		beep(0.5)
 
-def destroy():
-	GPIO.output(BuzzerPin, GPIO.HIGH)
-	GPIO.cleanup()                     # Release resource
+def stop():
+    """
+    Releases resources and exits.
+    """
+    print("\nStopping program.")
+    buzzer.off()
+    buzzer.close()
+    exit()
 
-if __name__ == '__main__':     # Program start from here
-	setup(Buzzer)
-	try:
-		loop()
-	except KeyboardInterrupt:  # When 'Ctrl+C' is pressed, the child program destroy() will be  executed.
-		destroy()
 
+if __name__ == '__main__':
+    print("Press Crtl-C to stop the program.")
+    try:
+        while True:
+            activate_buzzer()
+    except KeyboardInterrupt:
+        stop()
