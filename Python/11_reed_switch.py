@@ -9,7 +9,7 @@ This program was written on a Raspberry Pi using the Geany IDE.
 from time import sleep
 from gpiozero import PWMLED, Button
 
-button = Button(17)
+reed_switch = Button(17)
 red = PWMLED(pin=18, active_high=True, initial_value=1, frequency=100)
 green = PWMLED(pin=27, active_high=True, initial_value=0, frequency=100)
 
@@ -30,7 +30,7 @@ def stop():
     Releases resources and exits.
     """
     print("\nStopping program.")
-    button.close()
+    reed_switch.close()
     red.close()
     green.close()
     exit()
@@ -40,7 +40,7 @@ if __name__ == '__main__':
     print("Press Crtl-C to stop the program.")
     try:
         while True:
-            if button.is_pressed:
+            if reed_switch.is_pressed:
                 red.off()
                 green.on()
                 print_message()
