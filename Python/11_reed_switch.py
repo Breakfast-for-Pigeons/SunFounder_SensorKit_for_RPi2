@@ -1,48 +1,51 @@
 #!/usr/bin/env python
-import RPi.GPIO as GPIO
+"""
+Controls the SunFounder reed switch module.
 
-ReedPin = 11
-Gpin    = 12
-Rpin    = 13
+When the reed switch is activated, it changes the color of an LED.
 
-def setup():
-	GPIO.setmode(GPIO.BOARD)       # Numbers GPIOs by physical location
-	GPIO.setup(Gpin, GPIO.OUT)     # Set Green Led Pin mode to output
-	GPIO.setup(Rpin, GPIO.OUT)     # Set Red Led Pin mode to output
-	GPIO.setup(ReedPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)    # Set BtnPin's mode is input, and pull up to high level(3.3V)
-	GPIO.add_event_detect(ReedPin, GPIO.BOTH, callback=detect, bouncetime=200)
+This program was written on a Raspberry Pi using the Geany IDE.
+"""
+from time import sleep
+from gpiozero import PWMLED, Button
 
-def Led(x):
-	if x == 0:
-		GPIO.output(Rpin, 1)
-		GPIO.output(Gpin, 0)
-	if x == 1:
-		GPIO.output(Rpin, 0)
-		GPIO.output(Gpin, 1)
+button = Button(17)
+red = PWMLED(pin=18, active_high=True, initial_value=1, frequency=100)
+green = PWMLED(pin=27, active_high=True, initial_value=0, frequency=100)
 
-def Print(x):
-	if x == 0:
-		print '    ***********************************'
-		print '    *   Detected Magnetic Material!   *'
-		print '    ***********************************'
 
-def detect(chn):
-	Led(GPIO.input(ReedPin))
-	Print(GPIO.input(ReedPin))
+def print_message():
+    """
+    Prints a message to the screen letting the user know the reed
+    switch was activated.
+    """
+    print('***********************************')
+    print('*   Detected Magnetic Material!   *')
+    print('***********************************')
+    sleep(1)
 
-def loop():
-	while True:
-		pass
 
-def destroy():
-	GPIO.output(Gpin, GPIO.HIGH)       # Green led off
-	GPIO.output(Rpin, GPIO.HIGH)       # Red led off
-	GPIO.cleanup()                     # Release resource
+def stop():
+    """
+    Releases resources and exits.
+    """
+    print("\nStopping program.")
+    button.close()
+    red.close()
+    green.close()
+    exit()
 
-if __name__ == '__main__':     # Program start from here
-	setup()
-	try:
-		loop()
-	except KeyboardInterrupt:  # When 'Ctrl+C' is pressed, the child program destroy() will be  executed.
-		destroy()
+
+if __name__ == '__main__':
+    print("Press Crtl-C to stop the program.")
+    try:
+        while True:
+            if button.is_pressed:
+                red.off()
+                green.on()
+                print_message()
+            else:
+                red.on()
+    except KeyboardInterrupt:
+        stop()
 
