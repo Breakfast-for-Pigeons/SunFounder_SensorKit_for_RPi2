@@ -1,62 +1,52 @@
 #!/usr/bin/env python
-import RPi.GPIO as GPIO
-import time
+"""
+Controls the SunFounder vibration switch module.
 
-VibratePin = 11
-Gpin   = 12
-Rpin   = 13
+When the vibration switch is activated, it changes the color of an LED.
 
-tmp = 0
+This program was written on a Raspberry Pi using the Geany IDE.
+"""
+from time import sleep
+from gpiozero import PWMLED, Button
 
-def setup():
-	GPIO.setmode(GPIO.BOARD)       # Numbers GPIOs by physical location
-	GPIO.setup(Gpin, GPIO.OUT)     # Set Green Led Pin mode to output
-	GPIO.setup(Rpin, GPIO.OUT)     # Set Red Led Pin mode to output
-	GPIO.setup(VibratePin, GPIO.IN, pull_up_down=GPIO.PUD_UP)    # Set BtnPin's mode is input, and pull up to high level(3.3V)
+vibration_switch = Button(17)
+red = PWMLED(pin=18, active_high=True, initial_value=0, frequency=100)
+green = PWMLED(pin=27, active_high=True, initial_value=1, frequency=100)
 
-def Led(x):
-	if x == 0:
-		GPIO.output(Rpin, 1)
-		GPIO.output(Gpin, 0)
-	if x == 1:
-		GPIO.output(Rpin, 0)
-		GPIO.output(Gpin, 1)
-	
 
-def Print(x):
-	global tmp
-	if x != tmp:
-		if x == 0:
-			print '    **********'
-			print '    *     ON *'
-			print '    **********'
-	
-		if x == 1:
-			print '    **********'
-			print '    * OFF    *'
-			print '    **********'
-		tmp = x
+def print_message():
+    """
+    Prints a message to the screen letting the user know the vibration
+    switch was activated.
+    """
+    print('***********************************')
+    print('*       Detected Vibration!       *')
+    print('***********************************')
+    sleep(1)
 
-def loop():
-	state = 0
-	while True:
-		if GPIO.input(VibratePin):
-			state = state + 1
-			if state > 1:
-				state = 0
-			Led(state)
-			Print(state)
-			time.sleep(1)
 
-def destroy():
-	GPIO.output(Gpin, GPIO.HIGH)       # Green led off
-	GPIO.output(Rpin, GPIO.HIGH)       # Red led off
-	GPIO.cleanup()                     # Release resource
+def stop():
+    """
+    Releases resources and exits.
+    """
+    print("\nStopping program.")
+    vibration_switch.close()
+    red.close()
+    green.close()
+    exit()
 
-if __name__ == '__main__':     # Program start from here
-	setup()
-	try:
-		loop()
-	except KeyboardInterrupt:  # When 'Ctrl+C' is pressed, the child program destroy() will be  executed.
-		destroy()
 
+if __name__ == '__main__':
+    print("Press Crtl-C to stop the program.")
+    try:
+        while True:
+            if vibration_switch.is_pressed:
+                green.off()
+                red.on()
+                print_message()
+                red.off()
+                green.on()
+            else:
+                green.on()
+    except KeyboardInterrupt:
+        stop()
